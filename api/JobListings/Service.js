@@ -72,4 +72,16 @@ module.exports = {
         }
       );
     },
+    getJobById: (id,callBack) => {
+      pool.query(
+        `SELECT * FROM joblistings WHERE ID = ?`,
+        [id],
+        (error, result, fields) => {
+          if (error) {
+            return callBack(error);
+          }
+          return callBack(null, result);
+        }
+      );
+    },
 }
