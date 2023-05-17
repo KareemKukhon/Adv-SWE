@@ -1,5 +1,5 @@
 const { getConnection } = require("../../config/database");
-const {create, getAll, getById, createJob, getJob, getJobById} = require("./Service");
+const {create, getAll, getById, createJob, getJob, getJobById, getJobByEmployer} = require("./Service");
 const {genSaltSync, hashSync} = require("bcrypt");
 module.exports = {
     createUser: (req, res)=>{
@@ -9,12 +9,12 @@ module.exports = {
             if(err){
                 console.log(err);
                 return res.status(500).json({
-                    success: 0,
-                    message: "Database connection error"
+                    status: 500,
+                    message: err
                 });
             }
             return res.status(200).json({
-                success: 1,
+                status: 200,
                 data: result
             });
         });
@@ -24,12 +24,12 @@ module.exports = {
             if(err){
                 console.log(err);
                 return res.status(500).json({
-                    success: 0,
-                    message: "Database connection error"
+                    status: 404,
+                    message: err
                 });
             }
             return res.status(200).json({
-                success: 1,
+                status: 200,
                 data: result
             });
         });
@@ -40,12 +40,12 @@ module.exports = {
             if(err){
                 console.log(err);
                 return res.status(500).json({
-                    success: 0,
-                    message: "Database connection error"
+                    status: 404,
+                    message: err
                 });
             }
             return res.status(200).json({
-                success: 1,
+                status: 200,
                 data: result
             });
         });
@@ -56,12 +56,12 @@ module.exports = {
             if(err){
                 console.log(err);
                 return res.status(500).json({
-                    success: 0,
-                    message: "Database connection error"
+                    status: 500,
+                    message: err
                 });
             }
             return res.status(200).json({
-                success: 1,
+                status: 200,
                 data: result
             });
         });
@@ -72,12 +72,12 @@ module.exports = {
             if(err){
                 console.log(err);
                 return res.status(500).json({
-                    success: 0,
-                    message: "Database connection error"
+                    status: 404,
+                    message: err
                 });
             }
             return res.status(200).json({
-                success: 1,
+                status: 200,
                 data: result
             });
         });
@@ -88,15 +88,31 @@ module.exports = {
            if(err){
                console.log(err);
                return res.status(500).json({
-                   success: 0,
-                   message: "Database connection error"
+                status: 404,
+                   message: err
                });
            }
            return res.status(200).json({
-               success: 1,
+            status: 200,
                data: result
            });
        });
    },
+   getJobListingsByEmployer: (req, res)=>{
+    const {Employer} = req.params;
+    getJobByEmployer(Employer,(err, result)=>{
+       if(err){
+           console.log(err);
+           return res.status(500).json({
+            status: 404,
+               message: err
+           });
+       }
+       return res.status(200).json({
+        status: 200,
+           data: result
+       });
+   });
+},
 
 }

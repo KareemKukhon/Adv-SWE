@@ -1,8 +1,21 @@
 const pool = require("../../config/database");
-
 module.exports = {
+  
     create: (data, callBack) => {
-        pool.query(
+      isExist = false;
+      pool.query(
+        `Select * From employers Where Email = ?`,
+    [data.email],
+    (error, result, fields)=>{
+        if(error){
+            return callBack(error);
+        }
+        if(result.length > 0){
+          console.log(result)
+          return callBack("This user is already exist")
+        }
+        else{
+          pool.query(
             `insert into employers(Name, email, Company) 
                     values(?,?,?)`,
         [
@@ -10,13 +23,17 @@ module.exports = {
             data.email,
             data.Company
         ],
-        (error, result, fields)=>{
+        (error, result1, fields)=>{
             if(error){
                 return callBack(error);
             }
-            return callBack(null, result);
+            return callBack(null, result1);
         }
-        )
+        );
+        }
+    }
+    )
+
     },
     getAll: (callBack) => {
         pool.query(
@@ -29,7 +46,7 @@ module.exports = {
           }
         );
       },
-      getById: (id,callBack) => {
+    getById: (id,callBack) => {
         pool.query(
           `SELECT * FROM employers WHERE ID = ?`,
           [id],
@@ -37,7 +54,11 @@ module.exports = {
             if (error) {
               return callBack(error);
             }
-            return callBack(null, result);
+            if(result.length>0)
+              return callBack(null, result);
+            else{
+              return callBack("User Not Found");
+            }
           }
         );
       },
@@ -80,7 +101,25 @@ module.exports = {
           if (error) {
             return callBack(error);
           }
+          if(result.length > 0)
           return callBack(null, result);
+          else
+          return callBack("Job Not Found");
+        }
+      );
+    },
+    getJobByEmployer: (Employer,callBack) => {
+      pool.query(
+        `SELECT * FROM joblistings WHERE Employer = ?`,
+        [Employer],
+        (error, result, fields) => {
+          if (error) {
+            return callBack(error);
+          }
+          if(result.length > 0)
+          return callBack(null, result);
+          else
+          return callBack("No Job Found");
         }
       );
     },
