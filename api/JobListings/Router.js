@@ -1,4 +1,4 @@
-const {createUser,getEpmloyers, getEpmloyersById, createJoblistings, getjoblistings} = require("./userController");
+const {createUser,getEpmloyers, getEpmloyersById, createJoblistings, getjoblistings} = require("./Controller");
 const router = require("express").Router()
 
 router.post("/joblistings",createJoblistings);

@@ -1,11 +1,10 @@
 const { getConnection } = require("../../config/database");
-const {create, getAll, getById, createJob, getJob} = require("./userService");
+const {create, getAll, getById, createJob, getJob} = require("./Service");
 const {genSaltSync, hashSync} = require("bcrypt");
 module.exports = {
     createUser: (req, res)=>{
         const body = req.body;
-        //const salt = genSaltSync(10);
-        //body.password = hashSync(body.password, salt);
+
         create(body, (err, result)=>{
             if(err){
                 console.log(err);
@@ -21,7 +20,6 @@ module.exports = {
         });
     },
     getEpmloyers: (req, res)=>{
-        // const body = req.body;
         getAll( (err, result)=>{
             if(err){
                 console.log(err);
@@ -70,7 +68,6 @@ module.exports = {
     },
 
     getjoblistings: (req, res)=>{
-        // const body = req.body;
         getJob( (err, result)=>{
             if(err){
                 console.log(err);

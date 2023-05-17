@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const userRouter = require("./api/users/userRouter");
+const userRouter = require("./api/JobListings/Router");
 
 app.use(express.json());
 
